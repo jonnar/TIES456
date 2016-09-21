@@ -10,25 +10,43 @@ if (!getUrlParameter('code')) {
 }
 });
 
-function upload() {
-  //https://content.dropboxapi.com/2/files/upload
-  var now = new Date().getTime().toString();
-  var arg = JSON.stringify();
+function list() {
   var request = $.ajax({
       type: 'POST',
-      url: 'https://content.dropboxapi.com/1/files_put/auto/newfile'+ now+'.txt?param=val',
-    /*  headers: JSON.stringify({ 'Dropbox-API-Arg': {
-        path: 'newfile' + now + '.txt',
-        mode: 'add',
-        autorename: true,
-        mute: false
-      }, }),
-      contentType: 'application/octet-stream',
-   */   success: function(data, status) {
-          var json = JSON.parse(data);
-          access_token = json.access_token;
+      url: 'https://api.dropboxapi.com/2/files/list_folder',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        "path": "",
+        "recursive": false,
+        "include_media_info": false,
+        "include_deleted": false,
+        "include_has_explicit_shared_members": false
+      }),
+      success: function(data, status) {
+          var files = 'Total of ' + data.entries.length + ' files. ';
+          for (var i = 0; i< data.entries.length; i++) {
+            files += data.entries[i].name + ', ';
+          }
 
-          $('#data').text(data);
+          $('#data').text(files);
+          console.log(access_token);
+          console.log(data, status);
+      },
+      error: function(data, status) {
+          $('#data').text(data.responseText); 
+          console.error(data.responseText);
+      }
+    });
+}
+
+function upload() {
+  var now = new Date().getTime().toString();
+  var filename = 'newfile'+ now+'.txt';
+  var request = $.ajax({
+      type: 'POST',
+      url: 'https://content.dropboxapi.com/1/files_put/auto/' + filename + '?param=val',
+      success: function(data, status) {
+          $('#data').text(filename+' uploaded!');
           console.log(access_token);
           console.log(data, status);
       },
