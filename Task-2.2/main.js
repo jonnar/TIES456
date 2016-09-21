@@ -10,6 +10,35 @@ if (!getUrlParameter('code')) {
 }
 });
 
+function upload() {
+  //https://content.dropboxapi.com/2/files/upload
+  var now = new Date().getTime().toString();
+  var arg = JSON.stringify();
+  var request = $.ajax({
+      type: 'POST',
+      url: 'https://content.dropboxapi.com/1/files_put/auto/newfile'+ now+'.txt?param=val',
+    /*  headers: JSON.stringify({ 'Dropbox-API-Arg': {
+        path: 'newfile' + now + '.txt',
+        mode: 'add',
+        autorename: true,
+        mute: false
+      }, }),
+      contentType: 'application/octet-stream',
+   */   success: function(data, status) {
+          var json = JSON.parse(data);
+          access_token = json.access_token;
+
+          $('#data').text(data);
+          console.log(access_token);
+          console.log(data, status);
+      },
+      error: function(data, status) {
+          $('#data').text(data.responseText); 
+          console.error(data.responseText);
+      }
+    });
+}
+
 function info() {
   var req = $.ajax({
     url: 'https://api.dropboxapi.com/2/users/get_current_account',
