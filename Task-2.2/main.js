@@ -2,8 +2,15 @@ var app_key = 'ojtyzbpz7peoc2v';
 var app_secret = 'm8kdx1fyrghmj5d';
 var access_token = null;
 
+$(document).ready(function() {
+if (!getUrlParameter('code')) {
+  $('#data').text('Ready to login.');
+} else {
+  $('#data').text('Ready to authorize.');
+}
+});
+
 function info() {
-  
   var req = $.ajax({
     url: 'https://api.dropboxapi.com/2/users/get_current_account',
     type: 'POST',
@@ -12,6 +19,7 @@ function info() {
         $('#data').text(JSON.stringify(data));
     },
     error: function(data, status) {
+        $('#data').text(data.responseText); 
         console.error(data.responseText);
     }
   });
@@ -37,10 +45,13 @@ function auth() {
       success: function(data, status) {
           var json = JSON.parse(data);
           access_token = json.access_token;
+
+          $('#data').text('Access token retrieved. Ready to upload or get info.');
           console.log(access_token);
           console.log(data, status);
       },
       error: function(data, status) {
+          $('#data').text(data.responseText); 
           console.error(data.responseText);
       }
     });
