@@ -9,4 +9,4 @@
 2. Run "RunServlets.java" under CurrencyRateServlet project as java application
 3. E.g. url http://localhost:8080/getRate?fromCountry=AE&toCountry=US should response with AED and USD currency codes, and exchange rate
 
-NOTE: running those might need some external libraries, so add them to classpath when you got bunch of errors.
+NOTE: To get CurrencyRateServlet working, one needs to add jars under /lib to buildpath.
