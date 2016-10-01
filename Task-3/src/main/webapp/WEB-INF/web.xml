@@ -13,6 +13,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
+<<<<<<< HEAD
         <url-pattern>/*</url-pattern>
+=======
+        <url-pattern>/webapi/*</url-pattern>
+>>>>>>> hhaverinen/master
     </servlet-mapping>
 </web-app>
