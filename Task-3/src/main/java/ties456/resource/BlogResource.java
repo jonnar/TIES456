@@ -22,7 +22,12 @@ public class BlogResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Blog> getBlogs() {return service.getAll();}
+    public List<Blog> getBlogs(	@QueryParam("writer") String writer,
+    							@QueryParam("title") String title) {
+    	
+    	if(writer!=null) return service.getAll(writer);
+    	if(title!=null) return service.searchWithTitle(title);
+    	return service.getAll();}
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
